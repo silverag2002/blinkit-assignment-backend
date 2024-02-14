@@ -19,7 +19,6 @@ export const getMediaUrl = async (Key, Bucket = config.s3Bucket.bucketName) => {
   try {
     url = await getSignedUrl(mediaInput.s3, command, { expiresIn: 3600 });
   } catch (err) {
-    console.log(err);
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,
       "Something went wrong with AWS S3"
@@ -37,9 +36,7 @@ export const deleteFile = async (Key, Bucket = config.s3Bucket.bucketName) => {
   let response;
   try {
     response = await mediaInput.s3.send(command);
-    console.log("Response", response);
   } catch (err) {
-    console.log(err);
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,
       "Something went wrong with AWS S3"
@@ -58,10 +55,10 @@ export const uploadFile = async (
     Body: file.buffer,
     ContentType: file.mimetype,
   };
-  console.log("COMMAND", params);
+
   const command = new PutObjectCommand(params);
   const response = await mediaInput.s3.send(command);
-  console.log("REsponse from aws", response);
+
   if (response.$metadata.httpStatusCode !== 200) {
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,

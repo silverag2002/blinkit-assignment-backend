@@ -8,7 +8,7 @@ export const register = catchAsync(async (req, res) => {
   const { password, email } = req.body;
 
   let userData = await userService.createUser(req.body);
-  console.log("USR data", userData);
+
   await createLogin({
     id: userData.id,
     email,

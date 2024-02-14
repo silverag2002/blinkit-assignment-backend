@@ -16,16 +16,14 @@ export const uploadImages = catchAsync(async (req, res) => {
     let userInfo = await userService.getUserById(req.params.id);
 
     let images = userInfo.images;
-    console.log("images array", req.files.images);
+
     for (let i = 0; i < req.files?.images.length; i++) {
-      console.log("buffer", req.files.images[i]);
       let fileName = mediaInput.randomImageName();
       let response = await s3Service.uploadFile(req.files.images[i], fileName);
-      console.log("Response from s3", response);
+
       images.push(fileName);
-      console.log("images image", images);
     }
-    console.log("Final images allotment", images);
+
     req.body.images = images;
     const updateBody = await userService.updateUserById(
       req.params.id,
@@ -38,7 +36,6 @@ export const uploadImages = catchAsync(async (req, res) => {
 });
 
 export const updateUser = catchAsync(async (req, res) => {
-  console.log("Reqeust vbody", req.body);
   if (req.params.id !== req.user.id) {
     throw new ApiError(httpStatus.FORBIDDEN, "Method not allowed");
   }
@@ -50,7 +47,6 @@ export const updateUser = catchAsync(async (req, res) => {
     );
   }
   const userUpdated = await userService.updateUserById(req.params.id, req.body);
-  console.log("user updated", userUpdated);
 
   res.status(httpStatus.OK).send({ user: userUpdated });
 });
@@ -60,7 +56,6 @@ const searchAndFilterImage = async (key, id) => {
   let updatedArr = user.images;
   if (user.images.includes(key)) {
     updatedArr = user?.images.filter((imgKey) => imgKey !== key);
-    console.log("Iupdate", updatedArr);
   }
   return updatedArr;
 };
@@ -74,11 +69,10 @@ export const deleteImage = catchAsync(async (req, res) => {
   const deleteResponse = await s3Service.deleteFile(imageKey);
 
   const newImagesArr = await searchAndFilterImage(imageKey, req.params.id);
-  console.log("IMage", newImagesArr);
+
   const userUpdated = await userService.updateUserById(req.params.id, {
     images: newImagesArr,
   });
-  console.log("user updated", userUpdated);
 
   res.status(httpStatus.OK).send({ user: userUpdated });
 });

@@ -25,7 +25,7 @@ export const loginUserWithEmailAndPassword = async (email, password) => {
   const login = await loginDetails.findOne({
     email,
   });
-  console.log("LOGIN", login);
+
   if (!login || !(await isPasswordMatch(password, login.password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password");
   }

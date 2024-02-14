@@ -10,13 +10,10 @@ const jwtOptions = {
 };
 
 const jwtVerify = async (req, payload, done) => {
-  console.log("Request params", req.params);
-
-  console.log("token", payload);
-
   try {
     const user = await User.findById(payload.id);
     req.user = user;
+
     if (!user) {
       return done(null, false);
     }
