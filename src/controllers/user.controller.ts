@@ -29,7 +29,7 @@ export const uploadImages = catchAsync(async (req, res) => {
       req.params.id,
       req.body
     );
-    res.status(httpStatus.OK).send("File uploaded successfully");
+    res.status(httpStatus.OK).send({ user: updateBody });
   } else {
     res.status(httpStatus.BAD_REQUEST).send("No Image Provided");
   }
