@@ -13,7 +13,9 @@ export const uploadImages = catchAsync(async (req, res) => {
     );
   }
   if (req.files?.images) {
-    let images = [];
+    let userInfo = await userService.getUserById(req.params.id);
+
+    let images = userInfo.images;
     console.log("images array", req.files.images);
     for (let i = 0; i < req.files?.images.length; i++) {
       console.log("buffer", req.files.images[i]);
