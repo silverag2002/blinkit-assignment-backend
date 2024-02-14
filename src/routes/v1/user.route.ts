@@ -29,8 +29,8 @@ router.get(
   userController.getUserById
 );
 
-router.delete(
-  "/:id",
+router.post(
+  "/delete-image/:id",
   passport.authenticate("jwt", { session: false }),
 
   userController.deleteImage

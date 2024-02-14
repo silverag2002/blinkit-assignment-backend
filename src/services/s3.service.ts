@@ -35,6 +35,8 @@ export const deleteFile = async (Key, Bucket = config.s3Bucket.bucketName) => {
   const command = new DeleteObjectCommand(bucketInfo);
   let response;
   try {
+    console.log("KEY", Key);
+
     response = await mediaInput.s3.send(command);
   } catch (err) {
     throw new ApiError(
