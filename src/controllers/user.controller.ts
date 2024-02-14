@@ -66,7 +66,7 @@ export const deleteImage = catchAsync(async (req, res) => {
   }
 
   const { imageKey } = req.body;
-  const deleteResponse = await s3Service.deleteFile(imageKey);
+  // const deleteResponse = await s3Service.deleteFile(imageKey);
 
   const newImagesArr = await searchAndFilterImage(imageKey, req.params.id);
 

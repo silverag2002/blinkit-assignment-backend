@@ -36,9 +36,10 @@ export const deleteFile = async (Key, Bucket = config.s3Bucket.bucketName) => {
   let response;
   try {
     console.log("KEY", Key);
-
+    console.log("Otions", command);
     response = await mediaInput.s3.send(command);
   } catch (err) {
+    console.log("Err", err);
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,
       "Something went wrong with AWS S3"
